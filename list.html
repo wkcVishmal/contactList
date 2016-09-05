@@ -1,0 +1,41 @@
+<html>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+
+<body>
+
+<script>
+    var app = angular.module("mylist",[]);
+    app.controller("myctrl",function($scope) {
+        $scope.items = [];
+
+        $scope.addItem = function(){
+            $scope.msg="";
+            if(!$scope.newItem){
+                return;
+            }
+            if ($scope.items.indexOf($scope.newItem) == -1) {
+                $scope.items.push($scope.newItem);
+            }else{
+                $scope.msg = "The item is already in the list.";
+            }
+        }
+        $scope.remove = function(item){
+            $scope.items.splice(item,1);
+        }
+    });
+
+</script>
+<div>
+
+</div>
+<div ng-app="mylist" ng-controller="myctrl">
+    <input ng-model="newItem">
+    <p>{{msg}}</p>
+    <button ng-click="addItem()">Add Item</button>
+    <ul>
+        <li ng-repeat="item in items"><strong>{{item}}</strong> <span ng-click="remove($index)">&nbsp Remove</span></li>
+    </ul>
+</div>
+</body>
+
+</html>
