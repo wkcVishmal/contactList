@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html ng-app="app">
+
+<head>
+    <title>To Do List</title>
+    <script data-require="angular.js@1.1.5" data-semver="1.1.5" src="http://code.angularjs.org/1.1.5/angular.min.js"></script>
+    <script src="https://rawgithub.com/gsklee/ngStorage/master/ngStorage.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+        angular.module('app', [
+            'ngStorage'
+        ]).
+
+        controller('Ctrl', function(
+                $scope,
+                $localStorage
+        ){
+            $scope.$storage = $localStorage;
+            $scope.items=[];
+            $scope.msg = "";
+            $scope.addItem = function() {
+                $scope.items.push($scope.newItem);
+                $localStorage.junk = {
+                    mydata: $scope.items
+                };
+            };
+            $scope.deleteItem = function(item) {
+
+                $arr = $localStorage.junk.mydata;
+                $arr.splice(item, 1);
+            }
+        });
+    </script>
+</head>
+
+<body ng-controller="Ctrl">
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">Things To Do</a>
+        </div>
+
+    </div>
+</nav>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <button class="btn btn-default" ng-click="$storage.$reset({
+          x: 999
+        })">Clear All</button>
+
+        <div>
+        <span>
+            <div class="form-group col-md-6">
+                <input class="form-control" ng-model="newItem">
+                <button class="btn btn-default" ng-click="addItem()">Add Item</button>
+            </div>
+        </span>
+
+            <p>{{msg}}</p>
+    </div>
+
+
+</div>
+
+
+    <ul class="list-group col-md-12">
+        <li class="list-group-item col-md-12" ng-repeat="item in $storage.junk.mydata">
+            <strong class="col-md-6">{{item}}</strong><input type="checkbox" class="col-md-3" value="done"> <button class="col-md-3" ng-click="deleteItem($index)">Delete</button>
+        </li>
+    </ul>
+
+
+</div>
+</body>
+
+</html>
