@@ -20,20 +20,25 @@
             }
         }
         $scope.remove = function(item){
-            $scope.items.splice(item,1);
+            //$scope.items.splice(item,1);
+            $scope.msg = item;
+
         }
     });
 
 </script>
-<div>
 
-</div>
 <div ng-app="mylist" ng-controller="myctrl">
-    <input ng-model="newItem">
+    <span>
+        <input ng-model="newItem">
+        <button ng-click="addItem()">Add Item</button>
+    </span>
+
     <p>{{msg}}</p>
-    <button ng-click="addItem()">Add Item</button>
     <ul>
-        <li ng-repeat="item in items"><strong>{{item}}</strong> <span ng-click="remove($index)">&nbsp Remove</span></li>
+        <li ng-repeat="item in items">
+            <strong>{{item}}</strong> <span ng-click="remove($index)">&nbsp Remove</span>
+        </li>
     </ul>
 </div>
 </body>
